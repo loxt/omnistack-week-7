@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import io from 'socket.io-client';
 import api from '../../services/api';
 
 import './styles.css';
@@ -11,15 +12,32 @@ import send from '../../assets/send.svg';
 export default function Feed() {
   const [feed, setFeed] = useState([]);
 
+  function registerToSocket() {
+    const socket = io('http://localhost:3333');
+
+    socket.on('post', newPost => {
+      setFeed([newPost, ...feed]);
+    });
+
+    socket.on('like', likedPost => {
+      setFeed(feed.map(post => (post._id === likedPost._id ? likedPost : post)));
+    });
+  }
+
   useEffect(() => {
     async function getPosts() {
+      registerToSocket();
       const response = await api.get('posts');
 
       setFeed(response.data);
     }
 
     getPosts().then(null);
-  }, []);
+  });
+
+  function handleLike(id) {
+    api.post(`/posts/${id}/like`).then(null);
+  }
 
   return (
     <section id="post-list">
@@ -36,9 +54,15 @@ export default function Feed() {
 
           <footer>
             <div className="actions">
-              <img src={like} alt="Like" />
-              <img src={comment} alt="Comment" />
-              <img src={send} alt="Send" />
+              <button type="button" onClick={() => handleLike(post._id)}>
+                <img src={like} alt="Like" />
+              </button>
+              <button type="button">
+                <img src={comment} alt="Comment" />
+              </button>
+              <button type="button">
+                <img src={send} alt="Send" />
+              </button>
             </div>
 
             <strong>{post.likes} curtidas</strong>
