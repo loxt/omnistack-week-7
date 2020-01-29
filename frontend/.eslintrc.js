@@ -22,7 +22,7 @@ module.exports = {
   },
   plugins: [
     'react',
-    'prettier'
+    'prettier',
   ],
   rules: {
     'prettier/prettier': 'error',
@@ -30,15 +30,18 @@ module.exports = {
       'warn',
       { extensions: ['.jsx', '.js'] }
     ],
-    "jsx-a11y/label-has-for": [ 2, {
-      "required": {
-        "every": [ "id" ]
-      }
-    }],
     'no-console': 'off',
     'no-underscore-dangle': 'off',
     'react/prop-types': 'off',
     'import/prefer-default-export': 'off',
     "camelcase": "off",
+    "max-len": [
+      "warn",
+      {
+        "code": 110,
+        "tabWidth": 2,
+        "comments": 110,
+      }
+    ]
   },
 };
