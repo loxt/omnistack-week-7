@@ -4,10 +4,6 @@ let io;
 
 exports.setupWebSocket = server => {
   io = socketio(server);
-
-  io.on('connection', () => {
-    console.log('conectado');
-  });
 };
 
 exports.emitPost = post => {
