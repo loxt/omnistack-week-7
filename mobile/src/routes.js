@@ -15,14 +15,17 @@ export default createAppContainer(
     {
       Feed: {
         screen: Feed,
-        navigationOptions: ({ navigation }) => ({
-          headerRight: (
-            <TouchableOpacity style={{ marginRight: 20 }} onPress={() => navigation.navigate('New')}>
-              <Image source={camera} />
-            </TouchableOpacity>
-          )
-        })
+        navigationOptions: ({ navigation }) => {
+          return {
+            headerRight: () => (
+              <TouchableOpacity style={{ marginRight: 20 }} onPress={() => navigation.navigate('New')}>
+                <Image source={camera} />
+              </TouchableOpacity>
+            )
+          };
+        }
       },
+
       New: {
         screen: New
       }
@@ -30,7 +33,7 @@ export default createAppContainer(
     {
       defaultNavigationOptions: {
         headerTintColor: '#000',
-        headerTitle: <Image style={{ marginLeft: 20 }} source={logo} />,
+        headerTitle: () => <Image source={logo} />,
         headerBackTitle: null
       },
       mode: 'modal'
