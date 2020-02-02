@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FlatList, Image, TouchableOpacity } from 'react-native';
+import io from 'socket.io-client';
 import api from '../../services/api';
 
 import {
@@ -13,7 +14,8 @@ import {
   FeedItemFooter,
   Likes,
   Description,
-  Hashtags
+  Hashtags,
+  Actions
 } from './styles';
 
 import more from '../../assets/more.png';
@@ -32,7 +34,25 @@ export default function Feed() {
     }
 
     getFeed().then(null);
-  }, []);
+  }, [feed]);
+
+  const registerToSocket = () => {
+    const socket = io('http://192.168.0.101:3333');
+
+    socket.on('post', (newPost) => {
+      setFeed([newPost, ...feed]);
+    });
+
+    socket.on('like', (likedPost) => {
+      setFeed(feed.map((post) => (post._id === likedPost._id ? likedPost : post)));
+    });
+  };
+
+  registerToSocket();
+
+  const handleLike = (id) => {
+    api.post(`/posts/${id}/like`).then(null);
+  };
 
   return (
     <Container>
@@ -55,11 +75,21 @@ export default function Feed() {
               }}
             />
             <FeedItemFooter>
-              <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() => {}}>
-                <Image style={{ marginRight: 8 }} source={like} />
-                <Image style={{ marginRight: 8 }} source={comment} />
-                <Image source={send} />
-              </TouchableOpacity>
+              <Actions>
+                <TouchableOpacity
+                  onPress={() => {
+                    handleLike(item._id);
+                  }}
+                >
+                  <Image style={{ marginRight: 8 }} source={like} />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => {}}>
+                  <Image style={{ marginRight: 8 }} source={send} />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => {}}>
+                  <Image source={comment} />
+                </TouchableOpacity>
+              </Actions>
 
               <Likes>{item.likes} curtidas</Likes>
               <Description>{item.description}</Description>

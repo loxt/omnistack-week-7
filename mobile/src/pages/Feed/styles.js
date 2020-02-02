@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components/native';
 
 export const Container = styled.View`
   flex: 1;
@@ -35,6 +35,12 @@ export const FeedImage = styled.Image`
 
 export const FeedItemFooter = styled.View`
   padding: 0 15px 0 15px;
+`;
+
+export const Actions = styled.View`
+  flex-direction: row;
+  justify-content: space-around;
+  margin-right: 8px;
 `;
 
 export const Likes = styled.Text`
