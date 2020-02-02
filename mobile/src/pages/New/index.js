@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
-import api from '../../services/api';
 
 import {
   Container,
@@ -18,7 +17,6 @@ export default function New({ navigation }) {
   const [description, setDescription] = useState('');
   const [hashtags, setHashtags] = useState('');
   const [preview, setPreview] = useState(null);
-  const [image, setImage] = useState(null);
 
   const selectPicture = async () => {
     const permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
@@ -33,41 +31,12 @@ export default function New({ navigation }) {
       allowsMultipleSelection: false,
       base64: true
     });
+
     const previewUri = {
       uri: `data:image/jpeg;base64,${imagePicker.base64}`
     };
     setPreview(previewUri);
-
-    const imagem = new FormData();
-    imagem.append('uri', imagePicker.uri);
-    imagem.append('type', imagePicker.type);
-    imagem.append('name', imagePicker.uri.split('/').pop());
-    imagem.append('filename', imagePicker.uri.split('/').pop());
-    imagem.append('image', { filename: imagePicker.uri.split('/').pop() });
-
-    setImage(imagem);
   };
-
-  async function handleSubmit() {
-    await api
-      .post(
-        'posts',
-        {
-          image,
-          author,
-          description,
-          hashtags,
-          place
-        },
-        {
-          method: 'POST',
-          headers: {
-            'content-type': 'multipart/form-data'
-          }
-        }
-      )
-      .catch((err) => console.log(err));
-  }
 
   return (
     <Container>
@@ -114,11 +83,7 @@ export default function New({ navigation }) {
         onChangeText={(getHashtags) => setHashtags(getHashtags)}
       />
 
-      <ShareButton
-        onPress={() => {
-          handleSubmit().then(navigation.navigate('Feed'));
-        }}
-      >
+      <ShareButton onPress={() => navigation.navigate('Feed')}>
         <ShareButtonText>Compartilhar</ShareButtonText>
       </ShareButton>
     </Container>

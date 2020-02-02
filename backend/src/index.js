@@ -20,6 +20,8 @@ mongoose.connect(
 
 app.use('/files', express.static(path.resolve(__dirname, '..', 'uploads', 'resized')));
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(routes);
 server.listen(3333);
