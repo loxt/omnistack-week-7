@@ -22,6 +22,8 @@ export default function New(props) {
 
     await api.post('posts', data);
 
+    console.log(data);
+
     props.history.push('/');
   }
 

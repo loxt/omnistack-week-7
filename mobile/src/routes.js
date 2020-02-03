@@ -5,7 +5,6 @@ import { createStackNavigator } from 'react-navigation-stack';
 import React from 'react';
 import { Image, TouchableOpacity } from 'react-native';
 import Feed from './pages/Feed';
-import New from './pages/New';
 
 import logo from './assets/logo.png';
 import camera from './assets/camera.png';
@@ -24,10 +23,6 @@ export default createAppContainer(
             )
           };
         }
-      },
-
-      New: {
-        screen: New
       }
     },
     {

@@ -41,6 +41,6 @@ module.exports = {
         "comments": 110,
       }
     ],
-    'no-console': 'off'
+    'no-console': 'off',
   },
 };

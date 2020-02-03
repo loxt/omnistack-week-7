@@ -7,6 +7,7 @@ import routes from './routes';
 import { setupWebSocket } from './websocket';
 
 const app = express();
+
 const server = http.Server(app);
 setupWebSocket(server);
 
@@ -18,10 +19,7 @@ mongoose.connect(
   }
 );
 
-app.use('/files', express.static(path.resolve(__dirname, '..', 'uploads', 'resized')));
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+app.use('/files', express.static(path.resolve(__dirname, '..', 'uploads', 'resized')));
 app.use(routes);
 server.listen(3333);
