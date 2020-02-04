@@ -58,10 +58,6 @@ export default function New({ navigation }) {
     formData.append('hashtags', hashtags);
 
     const options = {
-      method: 'POST',
-      body: {
-        formData
-      },
       headers: {
         Accept: 'application/json',
         'Content-Type': 'multipart/form-data'
