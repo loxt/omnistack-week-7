@@ -8,6 +8,7 @@ import Feed from './pages/Feed';
 
 import logo from './assets/logo.png';
 import camera from './assets/camera.png';
+import New from './pages/New';
 
 export default createAppContainer(
   createStackNavigator(
@@ -23,6 +24,9 @@ export default createAppContainer(
             )
           };
         }
+      },
+      New: {
+        screen: New
       }
     },
     {

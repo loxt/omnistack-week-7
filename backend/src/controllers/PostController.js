@@ -12,8 +12,6 @@ export default {
   },
 
   async store(req, res) {
-    console.log(req.body);
-    console.log(req.file);
     const { author, place, description, hashtags } = req.body;
     const { filename: image } = req.file;
 
